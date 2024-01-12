@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 const Navbar = () => {
   return (
     <header className='header'>
-        <NavLink to="/" className="w-50 h-10 rounded-lg items-center justify-center flex font-bold shadow-md">
+        <NavLink to="/portfolio" className="w-50 h-10 rounded-lg items-center justify-center flex font-bold shadow-md">
             <p className='blue-gradient_text'>Rama Chandra Kashyap</p>
         </NavLink>
         <nav className='nav-abc flex text-lg gap-7 font-medium'>
