@@ -10,13 +10,28 @@ const Space = ({ setCurrentStage, ...props }) => {
   const { nodes, materials } = useGLTF(spaceBoy);
   const rotationSpeed = useRef(0);
   const dampingFactor = 0.5;
+  const lastTouchX = useRef(0); // Store the last touch position
 
   const handleScroll = (e) => {
-    // Adjust this value to change scroll sensitivity
     const sensitivity = 0.001;
-
     const delta = e.deltaY * sensitivity;
     rotationSpeed.current += delta;
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches.length > 0) {
+      const sensitivity = 0.005; // Adjust as needed
+      const currentTouchX = e.touches[0].clientX;
+      const deltaX = currentTouchX - lastTouchX.current;
+      rotationSpeed.current += deltaX * sensitivity;
+      lastTouchX.current = currentTouchX; // Update the last touch position
+    }
+  };
+
+  const handleTouchStart = (e) => {
+    if (e.touches.length > 0) {
+      lastTouchX.current = e.touches[0].clientX; // Set initial touch position
+    }
   };
 
   useFrame(() => {
@@ -27,10 +42,8 @@ const Space = ({ setCurrentStage, ...props }) => {
       rotationSpeed.current = 0;
     }
 
-    // Optional: Update stage based on rotation, if needed
     const rotation = spaceRef.current.rotation.y;
     const normalizedRotation = ((rotation % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
-     // Set the current stage based on the island's orientation
      switch (true) {
       case normalizedRotation >= 5.45 && normalizedRotation <= 5.85:
         setCurrentStage(4);
@@ -52,29 +65,15 @@ const Space = ({ setCurrentStage, ...props }) => {
   useEffect(() => {
     const canvas = gl.domElement;
     canvas.addEventListener('wheel', handleScroll);
+    canvas.addEventListener('touchmove', handleTouchMove);
+    canvas.addEventListener('touchstart', handleTouchStart);
 
     return () => {
       canvas.removeEventListener('wheel', handleScroll);
+      canvas.removeEventListener('touchmove', handleTouchMove);
+      canvas.removeEventListener('touchstart', handleTouchStart);
     };
   }, [gl]);
-  
-  useEffect(() => {
-    const canvas = gl.domElement;
-  
-    const handleTouchMove = (e) => {
-      if (e.touches.length > 0) {
-        const sensitivity = 0.005; // Adjust as needed
-        const deltaX = e.touches[0].clientX - e.touches[0].pageX;
-        rotationSpeed.current += deltaX * sensitivity;
-      }
-    };
-  
-    canvas.addEventListener('touchmove', handleTouchMove);
-  
-    return () => {
-      canvas.removeEventListener('touchmove', handleTouchMove);
-    };
-}, [gl]);
 
   
 
