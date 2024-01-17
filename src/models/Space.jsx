@@ -64,8 +64,8 @@ const Space = ({ setCurrentStage, ...props }) => {
     const handleTouchMove = (e) => {
       if (e.touches.length > 0) {
         const sensitivity = 0.005; // Adjust as needed
-        const deltaY = e.touches[0].clientY - e.touches[0].pageY;
-        rotationSpeed.current += deltaY * sensitivity;
+        const deltaX = e.touches[0].clientX - e.touches[0].pageX;
+        rotationSpeed.current += deltaX * sensitivity;
       }
     };
   
@@ -74,7 +74,8 @@ const Space = ({ setCurrentStage, ...props }) => {
     return () => {
       canvas.removeEventListener('touchmove', handleTouchMove);
     };
-  }, [gl]);
+}, [gl]);
+
   
 
   return (

@@ -22,7 +22,7 @@ const renderContent ={
        <InfoBox 
        text="Worked as a software developer, I am currently pursuing a master's degree in Information Systems"
        
-       link="/About"
+       link="/portfolio/about"
        btnText="...more info"
        />
     ),
@@ -30,14 +30,14 @@ const renderContent ={
     <InfoBox 
        text=" I have developed many projects using various technologies"
        
-       link="/Projects"
+       link="/portfolio/projects"
        btnText="my projects?"
        />    ),
     4:(
         <InfoBox 
        text="Want to discuss about my projects or Looking for a developer ?"
        
-       link="/Contact"
+       link="/portfolio/contact"
        btnText="Let's Talk..."
        />
     ),
